@@ -58,6 +58,33 @@ class Video(Resource):
             
         Returns:
             VideoModel: El video solicitado
+            ---
+        parameters:
+          - name: video_id
+            in: path
+            type: integer
+            required: true
+            description: ID del video a obtener
+        responses:
+          200:
+            description: Video encontrado
+            schema:
+              id: Video
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: "Mi primer video"
+                views:
+                  type: integer
+                  example: 100
+                likes:
+                  type: integer
+                  example: 10
+          404:
+            description: No se encontró un video con el ID especificado
         """
         # TODO
         video = abort_if_video_doesnt_exist(video_id)
@@ -74,6 +101,44 @@ class Video(Resource):
             
         Returns:
             VideoModel: El video creado
+            ---
+        parameters:
+          - name: video_id
+            in: path
+            type: integer
+            required: true
+            description: ID para el nuevo video
+          - name: body
+            in: body
+            required: true
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Mi primer video"
+                views:
+                  type: integer
+                  example: 100
+                likes:
+                  type: integer
+                  example: 10
+        responses:
+          201:
+            description: Video creado exitosamente
+            schema:
+              id: Video
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                views:
+                  type: integer
+                likes:
+                  type: integer
+          409:
+            description: Ya existe un video con ese ID
         """
         # TODO
         existing_video = VideoModel.query.filter_by(id=video_id).first()
@@ -100,6 +165,44 @@ class Video(Resource):
             
         Returns:
             VideoModel: El video actualizado
+            ---
+        parameters:
+          - name: video_id
+            in: path
+            type: integer
+            required: true
+            description: ID del video a actualizar
+          - name: body
+            in: body
+            required: true
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Nuevo nombre"
+                views:
+                  type: integer
+                  example: 200
+                likes:
+                  type: integer
+                  example: 20
+        responses:
+          200:
+            description: Video actualizado exitosamente
+            schema:
+              id: Video
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                views:
+                  type: integer
+                likes:
+                  type: integer
+          404:
+            description: No se encontró un video con el ID especificado
         """
         # TODO
         video = abort_if_video_doesnt_exist(video_id)
@@ -127,6 +230,18 @@ class Video(Resource):
             
         Returns:
             str: Mensaje vacío con código 204
+            ---
+        parameters:
+          - name: video_id
+            in: path
+            type: integer
+            required: true
+            description: ID del video a eliminar
+        responses:
+          204:
+            description: Video eliminado exitosamente
+          404:
+            description: No se encontró un video con el ID especificado
         """
         # TODO
         video = abort_if_video_doesnt_exist(video_id)
